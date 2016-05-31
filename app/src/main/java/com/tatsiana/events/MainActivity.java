@@ -1,3 +1,6 @@
+//Used sources:
+// https://www.numetriclabz.com/android-post-and-get-request-using-httpurlconnection/
+
 package com.tatsiana.events;
 
 import android.app.ProgressDialog;
