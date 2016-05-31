@@ -29,7 +29,8 @@
         android:id="@+id/textView"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="10dp"
-        android:text="Choose an option below!" />
+        android:text="Choose an option below!"
+        android:layout_marginBottom="-20dp" />
 
 
     <TextView
@@ -44,19 +45,20 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="0dp">
 
         <Button
-            android:layout_width="110dp"
-            android:layout_height="50dp"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
             android:text="My Events"
             android:background="@drawable/button"
             android:id="@+id/button"
-            android:onClick="getEvents" />
+            android:onClick="getEvents"
+            android:layout_marginLeft="20dp" />
 
         <Button
-            android:layout_width="110dp"
-            android:layout_height="50dp"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
             android:id="@+id/searchEvents"
             android:background="@drawable/button"
             android:text="Search Events"
@@ -66,8 +68,8 @@
             android:layout_marginLeft="5dp" />
 
         <Button
-            android:layout_width="110dp"
-            android:layout_height="50dp"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
             android:id="@+id/addEvents"
             android:background="@drawable/button"
             android:text="Add Events"
@@ -88,7 +90,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/eventListView"
-        android:layout_marginTop="20dp"></ListView>
+        android:layout_marginTop="5dp"></ListView>
 
 </LinearLayout>
 

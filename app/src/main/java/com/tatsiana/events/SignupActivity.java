@@ -10,6 +10,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
@@ -98,10 +102,8 @@ public class SignupActivity extends AppCompatActivity {
 
                     @Override
                     public void run() {
-                        Intent intent = new Intent(SignupActivity.this, ProfileActivity.class);
-                        String value = responseOutput.toString();
-                        Log.i("Response", value);
-                        intent.putExtra("args", value);
+                        Intent intent = new Intent(SignupActivity.this, AccountActivity.class);
+                        intent.putExtra("user", email);
                         startActivity(intent);
                     }
                 });

@@ -23,7 +23,9 @@
         <activity android:name=".SignupActivity" />
         <activity android:name=".ProfileActivity" />
         <activity android:name=".AddActivity" />
-        <activity android:name=".AddedActivity"></activity>
+        <activity android:name=".AddedActivity" />
+        <activity android:name=".EditActivity" />
+        <activity android:name=".AccountActivity"></activity>
     </application>
 
 </manifest>

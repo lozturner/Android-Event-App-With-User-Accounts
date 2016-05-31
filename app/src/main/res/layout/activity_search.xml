@@ -12,8 +12,6 @@
         android:layout_height="wrap_content"
         android:fillViewport="true">
 
-    </ScrollView>
-
     <LinearLayout
         android:paddingTop="@dimen/activity_vertical_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
@@ -61,7 +59,7 @@
             android:layout_alignStart="@+id/lon"
             android:layout_toRightOf="@+id/nameTitle"
             android:textStyle="bold"
-            android:layout_marginTop="10dp" />
+            android:layout_marginTop="5dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -79,12 +77,39 @@
             android:id="@+id/button2"
             android:background="@drawable/button"
             android:layout_below="@+id/lat"
-            android:layout_toRightOf="@+id/nameTitle"
-            android:layout_toEndOf="@+id/nameTitle"
             android:onClick="fillInfo"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:textStyle="bold" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Search by name, city or zip code"
+            android:id="@+id/textView5"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Event Name"
+            android:id="@+id/nameTitle"
+            android:layout_below="@+id/button2"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textStyle="bold"
+            android:layout_marginTop="5dp" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/name"
+            android:layout_below="@+id/nameTitle"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -92,12 +117,11 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="City"
             android:id="@+id/cityTitle"
-            android:autoText="false"
             android:layout_below="@+id/date"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:textStyle="bold"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="5dp" />
 
         <EditText
             android:layout_width="match_parent"
@@ -135,10 +159,10 @@
             android:id="@+id/sendGet"
             android:text="Search Events"
             android:background="@drawable/button"
-            android:layout_below="@+id/sendPost"
+            android:layout_below="@+id/sendPutRequest"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="5dp"
             android:textStyle="bold" />
 
         <ImageButton
@@ -152,5 +176,6 @@
             android:layout_gravity="center_horizontal" />
 
     </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

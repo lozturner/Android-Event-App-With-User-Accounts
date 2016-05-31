@@ -1,8 +1,8 @@
 package com.tatsiana.events;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ParseException;
 import android.os.AsyncTask;
 import android.os.StrictMode;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
@@ -30,7 +29,9 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -44,34 +45,21 @@ public class ProfileActivity extends AppCompatActivity {
     String id = "";
     String username = "";
     String password = "";
-    String[] myDataArray = {};
+    //list for holding ids for deleting and editing
+    ArrayList<String> listId = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
+        Bundle extras = getIntent().getExtras();
+        id = extras.getString("id");
+        username = extras.getString("username");
+        password = extras.getString("password");
+
         StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
         StrictMode.setThreadPolicy(policy);
-
-        Intent intent = getIntent();
-        String passedArg = intent.getStringExtra("args");
-        String pass = intent.getStringExtra("pass");
-        info = passedArg;
-        password = pass;
-        Log.i("Passed", passedArg);
-
-        JSONArray jArray = null;
-        try {
-            jArray = new JSONArray(info);
-            JSONObject jsonObject = null;
-            jsonObject = jArray.getJSONObject(0);
-            id = jsonObject.getString("_id");
-            Log.i("ID passed", id);
-            username = jsonObject.getString("username");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
     }
 
     public void getEvents(View View) {
@@ -124,12 +112,12 @@ public class ProfileActivity extends AppCompatActivity {
                     public void run() {
 
                         //generate list
-                        ArrayList<String> list = new ArrayList<>();
+                        ArrayList<String> list = new ArrayList<String>();
+                        ArrayList<String> dateArray = new ArrayList<String>();
+                        ArrayList<String> addressArray = new ArrayList<String>();
 
                         try {
                             JSONArray jsonArray = new JSONArray(value);
-
-                            myDataArray = new String[jsonArray.length()];
 
                             for (int i = 0; i < jsonArray.length(); i++){
 
@@ -137,8 +125,30 @@ public class ProfileActivity extends AppCompatActivity {
                                 String name = jsonObject.getString("name");
                                 String id = jsonObject.getString("_id");
 
+                                String dateString = jsonObject.getString("date");
+
+                                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                                Date convertedDate = new Date();
+                                try {
+                                    convertedDate = dateFormat.parse(dateString);
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                } catch (java.text.ParseException e) {
+                                    e.printStackTrace();
+                                }
+
+                                String addressInfo = jsonObject.getString("address");
+                                JSONObject jsonObjectAddress = new JSONObject(addressInfo);
+
+                                String street = jsonObjectAddress.getString("street");
+                                String city = jsonObjectAddress.getString("city");
+                                String state = jsonObjectAddress.getString("state");
+                                String zip = jsonObjectAddress.getString("zip");
+
                                 list.add(name);
-                                list.add(id);
+                                listId.add(id);
+                                dateArray.add("Date: " + dateFormat.format(convertedDate));
+                                addressArray.add("Address: " + street + ",  " +  city + ", " + state + " "+ zip);
                             }
 
                         } catch (JSONException e) {
@@ -146,7 +156,7 @@ public class ProfileActivity extends AppCompatActivity {
                         }
 
                         //instantiate custom adapter
-                        MyCustomAdapter adapter = new MyCustomAdapter(list, ProfileActivity.this);
+                        MyCustomAdapter adapter = new MyCustomAdapter(list, dateArray, addressArray, ProfileActivity.this);
 
                         //handle listview and assign adapter
                         ListView lView = (ListView)findViewById(R.id.eventListView);
@@ -169,6 +179,11 @@ public class ProfileActivity extends AppCompatActivity {
 
     protected void searchRedirect (View view){
         Intent intent = new Intent(ProfileActivity.this, SearchActivity.class);
+        Bundle extras = new Bundle();
+        extras.putString("username", username);
+        extras.putString("password", password);
+        extras.putString("id", id);
+        intent.putExtras(extras);
         startActivity(intent);
     }
 
@@ -184,42 +199,36 @@ public class ProfileActivity extends AppCompatActivity {
         extras.putString("password", password);
         extras.putString("id", id);
         intent.putExtras(extras);
-
-        Log.i("ID extra", id);
-        Log.i("name extra", username);
-        Log.i("pass extra", password);
         startActivity(intent);
     }
 
     private class MyCustomAdapter extends BaseAdapter implements ListAdapter {
-        private ArrayList<String> list = new ArrayList<String>();
+        private ArrayList<String> nameList = new ArrayList<String>();
+        private ArrayList<String> dateList = new ArrayList<String>();
+        private ArrayList<String> addressList = new ArrayList<String>();
         private Context context;
 
 
-
-        public MyCustomAdapter(ArrayList<String> list, Context context) {
-            this.list = list;
+        public MyCustomAdapter(ArrayList<String> nameList, ArrayList<String> dateList, ArrayList<String> addressList, Context context) {
+            this.nameList = nameList;
+            this.dateList = dateList;
+            this.addressList = addressList;
             this.context = context;
         }
 
         @Override
         public int getCount() {
-            /*int halfCountOfList = list.size()/2;
-            // Add +1 in halfCountOfList if itemList size is odd.
-            int finalCount = halfCountOfList + list.size()%2;
-            return finalCount;*/
-            return list.size();
+            return nameList.size();
         }
 
         @Override
         public Object getItem(int pos) {
-            return list.get(pos);
+            return nameList.get(pos);
         }
 
         @Override
         public long getItemId(int pos) {
             return pos;
-            //just return 0 if your list items do not have an Id variable.
         }
 
         @Override
@@ -232,7 +241,13 @@ public class ProfileActivity extends AppCompatActivity {
 
             //Handle TextView and display string from your list
             TextView listItemText = (TextView)view.findViewById(R.id.list_item_string);
-            listItemText.setText(list.get(position));
+            listItemText.setText(nameList.get(position));
+
+            TextView listItemText2 = (TextView)view.findViewById(R.id.date);
+            listItemText2.setText(dateList.get(position));
+
+            TextView listItemText3 = (TextView)view.findViewById(R.id.address);
+            listItemText3.setText(addressList.get(position));
 
             //Handle buttons and add onClickListeners
             Button deleteBtn = (Button)view.findViewById(R.id.delete);
@@ -241,12 +256,7 @@ public class ProfileActivity extends AppCompatActivity {
             deleteBtn.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    Log.i("item", list.get(position));
-
-                    //list.remove(position);
-
-                    String event = list.get(position);
-                    Log.i("Event for Deletion", event);
+                    String event = listId.get(position);
 
                     try {
                         String userPassword = username + ":" + password;
@@ -273,18 +283,24 @@ public class ProfileActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    Intent intent = getIntent();
-                    finish();
-                    TextView deletedMessage = (TextView)findViewById(R.id.deleted);
-                    deletedMessage.setText("Selected event is removed");
-                    startActivity(intent);
+                    nameList.remove(position);
                     notifyDataSetChanged();
                 }
             });
             editBtn.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    Log.i("Will be edited", "Something");
+                    String event = listId.get(position);
+                    Log.i("Event for Edition", event);
+
+                    Intent intent = new Intent(ProfileActivity.this, EditActivity.class);
+                    Bundle extras = new Bundle();
+                    extras.putString("username", username);
+                    extras.putString("password", password);
+                    extras.putString("id", id);
+                    extras.putString("event", event);
+                    intent.putExtras(extras);
+                    startActivity(intent);
                 }
             });
 

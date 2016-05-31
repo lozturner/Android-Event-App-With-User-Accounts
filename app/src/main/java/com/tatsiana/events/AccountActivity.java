@@ -10,6 +10,7 @@ import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -24,16 +25,20 @@ import java.net.URL;
 
 import javax.net.ssl.HttpsURLConnection;
 
-public class MainActivity extends AppCompatActivity {
+public class AccountActivity extends AppCompatActivity {
 
     private ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-    }
+        setContentView(R.layout.activity_account);
+        Intent intent = getIntent();
+        String user = intent.getStringExtra("user");
 
+       EditText u = (EditText) findViewById(R.id.email);
+        u.setText(user);
+    }
     public void signIn (View View) {
         EditText e = (EditText) findViewById(R.id.email);
         if(e.getText().toString().equals("")){
@@ -86,7 +91,6 @@ public class MainActivity extends AppCompatActivity {
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setRequestProperty("Authorization", "Basic " + encodedString);
                 connection.setRequestMethod("GET");
-                //connection.setDoOutput(false);
                 connection.setUseCaches(true);
                 connection.setDefaultUseCaches(true);
                 connection.setConnectTimeout(360);
@@ -102,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 br.close();
 
-                MainActivity.this.runOnUiThread(new Runnable() {
+                AccountActivity.this.runOnUiThread(new Runnable() {
 
                     @Override
                     public void run() {
@@ -121,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                             e.printStackTrace();
                         }
 
-                        Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                        Intent intent = new Intent(AccountActivity.this, ProfileActivity.class);
                         Bundle extras = new Bundle();
                         extras.putString("username", username);
                         extras.putString("password", password);
@@ -143,13 +147,4 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    protected void searchRedirect(View view){
-        Intent intent = new Intent(MainActivity.this, SearchActivity.class);
-        startActivity(intent);
-    }
-
-    protected void signUpRedirect(View view){
-        Intent intent = new Intent(MainActivity.this, SignupActivity.class);
-        startActivity(intent);
-    }
 }

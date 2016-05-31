@@ -34,6 +34,9 @@ public class SearchActivity extends AppCompatActivity {
     TextView lon;
     double pLat;
     double pLong;
+    String id = "";
+    String username = "";
+    String password = "";
 
     private ProgressDialog progress;
 
@@ -71,6 +74,11 @@ public class SearchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
+
+        Bundle extras = getIntent().getExtras();
+        id = extras.getString("id");
+        username = extras.getString("username");
+        password = extras.getString("password");
 
         lat = (TextView) findViewById(R.id.lat);
         lon = (TextView) findViewById(R.id.lon);
@@ -113,6 +121,9 @@ public class SearchActivity extends AppCompatActivity {
             this.context = c;
         }
 
+        EditText nameField = (EditText) findViewById(R.id.name);
+        String name = nameField.getText().toString();
+
         EditText cityField = (EditText) findViewById(R.id.city);
         String city = cityField.getText().toString();
 
@@ -130,11 +141,16 @@ public class SearchActivity extends AppCompatActivity {
             try {
 
                 String str = "";
-                if(zip.equals("")){
-                    str = "http://52.38.126.224:9000/api/city/" + city;
+                if(name.equals("")){
+                    if(zip.equals("")){
+                        str = "http://52.38.126.224:9000/api/city/" + city;
+                    }
+                    else{
+                        str = "http://52.38.126.224:9000/api/zip/" + zip;
+                    }
                 }
                 else{
-                    str = "http://52.38.126.224:9000/api/zip/" + zip;
+                    str = "http://52.38.126.224:9000/api/name/" + name;
                 }
 
                 URL url = new URL (str);
@@ -158,8 +174,12 @@ public class SearchActivity extends AppCompatActivity {
                     public void run() {
                         Intent intent = new Intent(SearchActivity.this, ResultActivity.class);
                         String value = responseOutput.toString();
-                        Log.i("Value of value is", value);
-                        intent.putExtra("args", value);
+                        Bundle extras = new Bundle();
+                        extras.putString("username", username);
+                        extras.putString("password", password);
+                        extras.putString("id", id);
+                        extras.putString("args", value);
+                        intent.putExtras(extras);
                         startActivity(intent);
                     }
                 });
@@ -191,13 +211,18 @@ public class SearchActivity extends AppCompatActivity {
         }
 
         else{
-            Log.i("address", "nothing");
+            Log.i("address", "empty");
         }
 
     }
 
     protected void backToMain (View view){
-        Intent intent = new Intent(SearchActivity.this, MainActivity.class);
+        Intent intent = new Intent(SearchActivity.this, ProfileActivity.class);
+        Bundle extras = new Bundle();
+        extras.putString("username", username);
+        extras.putString("password", password);
+        extras.putString("id", id);
+        intent.putExtras(extras);
         startActivity(intent);
     }
 

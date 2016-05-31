@@ -7,17 +7,26 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.tatsiana.events.MainActivity">
+    tools:context="com.tatsiana.events.AccountActivity">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Welcome to Events!"
-        android:id="@+id/singUpPrompt"
-        android:layout_marginTop="25dp"
+        android:text="Account was created for user:"
+        android:id="@+id/textView6"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:id="@+id/user"
+        android:layout_below="@+id/textView6"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" />
 
     <TextView
         android:layout_width="100dp"
@@ -25,11 +34,10 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Email"
         android:id="@+id/emailPrompt"
-        android:layout_below="@+id/singUpPrompt"
+        android:gravity="center_vertical"
+        android:layout_above="@+id/passwordPrompt"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="30dp"
-        android:gravity="center_vertical" />
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="100dp"
@@ -37,22 +45,22 @@
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text="Password"
         android:id="@+id/passwordPrompt"
-        android:layout_below="@+id/emailPrompt"
+        android:gravity="center_vertical"
+        android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="15dp"
-        android:gravity="center_vertical" />
+        android:layout_marginTop="15dp" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Sing in"
         android:id="@+id/signup"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
         android:background="@drawable/button"
         android:onClick="signIn"
-        android:layout_marginTop="20dp" />
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="124dp" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -62,9 +70,7 @@
         android:id="@+id/email"
         android:layout_alignTop="@+id/emailPrompt"
         android:layout_alignLeft="@+id/signup"
-        android:layout_alignStart="@+id/signup"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignStart="@+id/signup"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -72,32 +78,8 @@
         android:inputType="textPassword"
         android:ems="10"
         android:id="@+id/password"
-        android:layout_alignBottom="@+id/passwordPrompt"
-        android:layout_alignLeft="@+id/email"
-        android:layout_alignStart="@+id/email" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Do not have an account?"
-        android:id="@+id/signUpPrompt"
-        android:layout_marginTop="31dp"
-        android:layout_below="@+id/signup"
-        android:layout_alignLeft="@+id/singUpPrompt"
-        android:layout_alignStart="@+id/singUpPrompt" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Sign up"
-        android:id="@+id/signUpRedirect"
-        android:layout_alignBottom="@+id/signUpPrompt"
-        android:layout_toRightOf="@+id/signUpPrompt"
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp"
-        android:textColor="#3232c8"
-        android:onClick="signUpRedirect" />
+        android:layout_alignTop="@+id/passwordPrompt"
+        android:layout_alignLeft="@+id/signup"
+        android:layout_alignStart="@+id/signup" />
 
 </RelativeLayout>

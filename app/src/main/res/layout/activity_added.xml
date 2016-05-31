@@ -21,7 +21,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="20dp"
-        android:layout_weight="0.03"
+        android:layout_weight="0.04"
         android:layout_marginTop="20dp"
         android:weightSum="1">
 
@@ -32,7 +32,7 @@
             android:text="Event Name:"
             android:id="@+id/nameT"
             style="@style/Base.TextAppearance.AppCompat.Title"
-            android:layout_weight="0.61" />
+            android:layout_weight="0.19" />
 
         <TextView
             android:layout_width="150dp"
@@ -158,5 +158,15 @@
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/zip" />
     </LinearLayout>
+
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/backIcon"
+        android:background="@android:drawable/ic_menu_revert"
+        android:onClick="backToMain"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_gravity="center_horizontal" />
 
 </LinearLayout>
