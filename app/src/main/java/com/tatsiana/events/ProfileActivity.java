@@ -257,6 +257,7 @@ public class ProfileActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     String event = listId.get(position);
+                    Log.i("DELETE", event);
 
                     try {
                         String userPassword = username + ":" + password;
@@ -284,6 +285,8 @@ public class ProfileActivity extends AppCompatActivity {
                     }
 
                     nameList.remove(position);
+                    dateList.remove(position);
+                    addressList.remove(position);
                     notifyDataSetChanged();
                 }
             });
